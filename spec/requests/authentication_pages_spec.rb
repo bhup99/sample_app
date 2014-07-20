@@ -17,6 +17,9 @@ describe "AuthenticationPages" do
 			before { click_button "Sign in" }
 
 			it { should have_title('Sign in') }
+			it { should_not have_content('Profile') }
+			it { should_not have_content('Settings') }
+			
 #			it { should have_selector('div.alert.alert-error') }
 		end
 
@@ -89,6 +92,18 @@ describe "AuthenticationPages" do
 				describe "visiting the user index" do
 					before { visit users_path }
 					it { should have_title('Sign in') }
+				end
+			end
+
+			describe "in the blogs controller" do
+				describe "submitting to the create action" do
+					before { post blogs_path }
+					specify { expect(response).to redirect_to(signin_path) }
+				end
+
+				describe "submitting to the destroy action" do
+					before { delete blog_path(FactoryGirl.create(:blog)) }
+					specify { expect(response).to redirect_to(signin_path) }
 				end
 			end
 		end

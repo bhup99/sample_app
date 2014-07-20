@@ -13,9 +13,13 @@ describe User do
 	it { should respond_to(:password_confirmation) }
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:admin) }
+	it { should respond_to(:blogs) }
 
 	it { should be_valid }
 	it { should_not be_admin }
+	it { should respond_to(:blogs) }
+	it { should respond_to(:feed) }
+
 
 	describe "with admin attribute set to 'true'" do
 		before do
@@ -108,5 +112,39 @@ describe User do
 	describe "remember_token" do
 		before { @user.save }
 		its(:remember_token) { should_not be_blank }
+	end
+
+	describe "blog association" do
+
+		before { @user.save }
+		let!(:older_blog) do
+			FactoryGirl.create(:blog, user: @user, created_at: 1.day.ago)
+		end
+		let!(:newer_blog) do
+			FactoryGirl.create(:blog, user: @user, created_at: 1.hour.ago)
+		end
+
+		it "should have the right blog in the right order" do
+			expect(@user.blogs.to_a).to eq [newer_blog, older_blog]
+		end
+
+		it "should destroy associated blogs" do
+			blogs = @user.blogs.to_a
+			@user.destroy
+			expect(blogs).not_to be_empty
+			blogs.each do |blog|
+				expect(Blog.where(id: blog.id)).to be_empty
+			end
+		end
+
+		describe "status" do
+			let(:unfollowed_post) do
+				FactoryGirl.create(:blog, user: FactoryGirl.create(:user))
+			end
+
+			its(:feed) { should include(newer_blog) }
+			its(:feed) { should include(older_blog) }
+			its(:feed) { should_not include(unfollowed_post) }
+		end
 	end
 end
