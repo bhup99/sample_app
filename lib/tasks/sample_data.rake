@@ -27,8 +27,9 @@ end
 def make_blogs
 	users = User.all(limit: 6)
 	50.times do
+		title = Faker::Lorem.sentence(10)
 		content = Faker::Lorem.sentence(15)
-		users.each { |user| user.blogs.create!(content: content) }
+		users.each { |user| user.blogs.create!(title: title,content: content) }
 	end
 end
 

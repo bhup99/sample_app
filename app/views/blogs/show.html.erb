@@ -1,0 +1,38 @@
+<%= link_to gravatar_for(@blog.user), @blog.user %>
+<span class="users">
+	<%= link_to @blog.user.name, @blog.user %>
+
+</span>
+<br>
+<h1><%= @blog.title %></h1><br>
+<span class="content"><%= @blog.content %></span>
+<span class="timestamp">
+	Posted <%= time_ago_in_words(@blog.created_at) %> ago.
+</span>
+<% if current_user?(@blog.user) %>
+	<%= link_to "delete", @blog, method: :delete,
+					 data: { confirm: "You sure?" },
+					 title: @blog.content %>
+<% end %>
+
+<%= form_for([@blog, @blog.comments.build]) do |f| %>
+	<br>
+	<br>
+	<div class="field">
+		<%= f.text_field :body, placeholder: "Post a comment..."  %>
+	</div>
+	<p>
+		<%= f.submit "Post", class: "btn btn-large btn-primary" %>
+	</p>
+<% end %>
+<% @comments.each do |c| %>
+	<% if c.user_id %>
+		<%= link_to User.find(c.user_id).name, User.find(c.user_id) %><br>
+		<%= c.body %><br>
+		<span class="timestamp">
+			Posted <%= time_ago_in_words(c.created_at) %> ago.
+		</span>
+	<br><br>
+	<% end %>
+<% end %>
+

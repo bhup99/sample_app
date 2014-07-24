@@ -1,5 +1,5 @@
 class BlogsController < ApplicationController
-	before_action :signed_in_user,	only: [:create, :destroy]
+	before_action :signed_in_user,	only: [:create, :destroy, :show]
 	before_action :correct_user, 	only: :destroy
 
 	def create
@@ -18,10 +18,15 @@ class BlogsController < ApplicationController
 		redirect_to root_url
 	end
 
+	def show
+		@blog = Blog.find(params[:id])
+		@comments = @blog.comments.all
+	end
+
 	private
 
 	def blog_params
-		params.require(:blog).permit(:content)
+		params.require(:blog).permit(:title, :content)
 	end
 
 	def correct_user
