@@ -11,7 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140723101003) do
+ActiveRecord::Schema.define(version: 20140725111338) do
+
+  create_table "attaches", force: true do |t|
+    t.string   "name"
+    t.string   "attachment"
+    t.integer  "blog_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attaches", ["blog_id"], name: "index_attaches_on_blog_id"
+
+  create_table "attachments", force: true do |t|
+    t.string   "name"
+    t.string   "attachment"
+    t.integer  "blog_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attachments", ["blog_id"], name: "index_attachments_on_blog_id"
 
   create_table "blogs", force: true do |t|
     t.string   "content"

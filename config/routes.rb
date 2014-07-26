@@ -1,4 +1,5 @@
 SampleApp::Application.routes.draw do
+	resources :attachments, only: [:index, :new, :create, :destroy]
 	resources :users do
 		member do
 			get :following, :followers

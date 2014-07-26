@@ -1,0 +1,42 @@
+<% if !flash[:notice].blank? %>
+	<div class="alert alert-info">
+		<%= flash[:notice] %>
+	</div>
+<% end %>
+
+<br>
+<br>
+<% if current_user?(@blog.user) %>
+	<%= form_for @attachment, html: { multipart: true } do |f| %>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+		<%= f.label :attachment %>
+		<%= f.file_field :attachment %>
+		<%= f.submit "Save", class: "btn btn-primary" %>
+	<% end %>
+<% end %>
+<br />
+<br />
+<table class="table table-bordered table-stripped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Download</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% if !@attachment.nil? %>
+			<% @attachments.each do |attachment| %>
+				<tr>
+					<td><%= attachment.name %></td>
+					<td><%= link_to "Download Attachment", attachment.attachment_url %></td>
+					<% if current_user?(@blog.user) %>
+						<td><%= button_to "Delete", attachment: :delete, class: "btn btn-danger", confirm: "Are you sure that you wish to delete #{attachment.name}?" %>
+						</td>
+					<% end %>
+				</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>

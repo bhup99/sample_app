@@ -1,0 +1,8 @@
+<% if !@attachment.errors.empty? %>
+	<%= render '/shared/errors', object: @attachment %>
+<% end %>
+
+<div class="well">
+	<%= form_for @attachment, html: {multipart: true } do |f| %>
+		<%= f.label :name %>
+		<%= f.
