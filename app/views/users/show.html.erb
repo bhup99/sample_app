@@ -9,7 +9,9 @@
 		</section>
 	</aside>
 	<div class="span8">
-		<%= render 'follow_form' if signed_in? %>
+		<% if signed_in? and current_user != @user %>
+				<%= render 'follow_form' %>
+		<% end %>
 		<% if @user.blogs.any? %>
 			<h3>Blogs (<%= @user.blogs.count %>)</h3>
 			<ol class="blogs" %>

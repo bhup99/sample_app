@@ -1,7 +1,6 @@
 class BlogsController < ApplicationController
 	before_action :signed_in_user,	only: [:create, :destroy, :show]
 	before_action :correct_user, 	only: :destroy
-	before_action :User.current=Blog.find(params[:id]),		only: :show
 
 	def create
 		@blog = current_user.blogs.build(blog_params)
@@ -21,20 +20,15 @@ class BlogsController < ApplicationController
 	
 	def show
 		@blog = Blog.find(params[:id])
+		blog_in @blog
 		@comments = @blog.comments.all
 		@attachments = @blog.attachments.all
-		@attachment = @blog.attachments.new
+		@attachment = @blog.attachments.build
+
 	end
 
-	def self.current
-		@current_blog
-	end
 
 	private
-
-	def self.current= (b)
-		@current_blog = b
-	end
 
 	def blog_params
 		params.require(:blog).permit(:title, :content)

@@ -1,23 +1,22 @@
 class AttachmentsController < ApplicationController
+  require 'json'
+
   def create
-
-	  @attachment = Blog.current.attachments.new(attachment_params)
-
+		@current_blog = params[:attachment][:blog].to_i
+		@current_blog = Blog.find(@current_blog)
+	  @attachment = @current_blog.attachments.new(attachment_params)
 	  if @attachment.save
-		  redirect_to Blog.current, notice: "The attachment #{@attachment.name} has been uploaded."
+				redirect_to @current_blog, notice: "The attachment #{@attachment.name} has been uploaded."
 	  else
-		  render "new"
+		  redirect_to @current_blog
 	  end
   end
 
   def destroy
 	  @attachment = Attachment.find(params[:id])
+		current_blog = @attachment.blog
 	  @attachment.destroy
-	  redirect_to Blog.current, notice: "The attachment #{@attachment.name} has been deleted."
-  end
-
-  def new
-	  @attachment = Blog.current.attachment.new
+	  redirect_to current_blog, notice: "The attachment #{@attachment.name} has been deleted."
   end
 
   private

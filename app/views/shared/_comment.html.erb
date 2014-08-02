@@ -1,0 +1,12 @@
+<% @comments.each do |c| %>
+	<% if c.user_id %>
+		<%= link_to User.find(c.user_id).name, User.find(c.user_id) %><br>
+		<%= c.body %><br>
+		<span class="timestamp">
+			<%= link_to "Reply", '#' %>
+			Posted <%= time_ago_in_words(c.created_at) %> ago.
+		</span>
+	<br><br>
+	<% end %>
+<% end %>
+
