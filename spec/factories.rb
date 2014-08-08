@@ -11,7 +11,14 @@ FactoryGirl.define do
 	end
 
 	factory :blog do
+		title "lorem"
 		content "Lorem ipsum"
 		user
 	end
+
+	factory :comment do
+			body "wewfwhf w0fh wh fwf hwrhf 9r"
+			blog
+	end
+
 end

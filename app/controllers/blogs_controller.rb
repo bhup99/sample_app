@@ -13,6 +13,15 @@ class BlogsController < ApplicationController
 		end
 	end
 
+	def share(blog)
+			@blog = current_user.blogs.build(content: blog.content)
+			if @blog.save
+					flash[:success] = "Blog create!"
+			else
+					flash[:failure] = "Fail to share blog!"
+			end
+	end
+
 	def destroy
 		@blog.destroy
 		redirect_to root_url

@@ -11,17 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725111338) do
-
-  create_table "attaches", force: true do |t|
-    t.string   "name"
-    t.string   "attachment"
-    t.integer  "blog_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "attaches", ["blog_id"], name: "index_attaches_on_blog_id"
+ActiveRecord::Schema.define(version: 20140806044553) do
 
   create_table "attachments", force: true do |t|
     t.string   "name"
@@ -64,6 +54,17 @@ ActiveRecord::Schema.define(version: 20140725111338) do
   add_index "relationships", ["followed_id"], name: "index_relationships_on_followed_id"
   add_index "relationships", ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
   add_index "relationships", ["follower_id"], name: "index_relationships_on_follower_id"
+
+  create_table "replies", force: true do |t|
+    t.integer  "replyto_id"
+    t.integer  "replycomment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "replies", ["replycomment_id"], name: "index_replies_on_replycomment_id"
+  add_index "replies", ["replyto_id", "replycomment_id"], name: "index_replies_on_replyto_id_and_replycomment_id", unique: true
+  add_index "replies", ["replyto_id"], name: "index_replies_on_replyto_id"
 
   create_table "users", force: true do |t|
     t.string   "name"

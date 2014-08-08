@@ -4,6 +4,7 @@ namespace :db do
 		make_users
 		make_blogs
 		make_relationships
+		make_comments
 	end
 end
 
@@ -40,4 +41,14 @@ def make_relationships
 	followers	= users[3..40]
 	followed_users.each { |followed| user.follow!(followed) }
 	followers.each	    { |follower| follower.follow!(user) }
+end
+
+def make_comments
+		blogs = Blog.all
+		blog = blogs.first
+		user = User.first
+		body = Faker::Lorem.sentence(15)
+		50.times do
+				blog.comments.create(body: body, user_id: user.id)
+		end
 end

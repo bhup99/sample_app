@@ -1,0 +1,5 @@
+<%= form_for(current_user.blogs.build) do |f| %>
+		<%= f.hidden_field :title, value: @blog.title %>
+		<%= f.hidden_field :content, value: @blog.content %>
+		<%= f.submit "Share", class: "btn btn-primary" %>
+<% end %>

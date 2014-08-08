@@ -32,7 +32,7 @@ class UsersController < ApplicationController
 
 	def update
 		if @user.update_attributes(user_params)
-			flash[:success] = "Profile updates"
+			flash[:success] = "Profile updated"
 			redirect_to @user
 		else
 			render 'edit'
@@ -40,8 +40,9 @@ class UsersController < ApplicationController
 	end
 
 	def destroy
+		user = User.find(params[:id]).name
 		User.find(params[:id]).destroy
-		flash[:success] = "User deleted."
+		flash[:success] = "#{user} deleted."
 		redirect_to users_url
 	end
 
@@ -57,6 +58,20 @@ class UsersController < ApplicationController
 		@user = User.find(params[:id])
 		@users = @user.followers.paginate(page: params[:page])
 		render 'show_follow'
+	end
+
+	def new_password
+	end
+
+	def reset_password
+			user = User.find_by(email: params[:user][:email])
+		  if !user
+					flash[:failure] = "No such user exists"
+			else
+					user.update(name: user.name, password: "winterfell", password_confirmation: "winterfell")
+					UserMailer.new_password(user).deliver
+					flash[:success] = "An email has been sent to you with your password"
+			end
 	end
 
 	private
