@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140806044553) do
+ActiveRecord::Schema.define(version: 20140808040736) do
 
   create_table "attachments", force: true do |t|
     t.string   "name"
@@ -65,6 +65,16 @@ ActiveRecord::Schema.define(version: 20140806044553) do
   add_index "replies", ["replycomment_id"], name: "index_replies_on_replycomment_id"
   add_index "replies", ["replyto_id", "replycomment_id"], name: "index_replies_on_replyto_id_and_replycomment_id", unique: true
   add_index "replies", ["replyto_id"], name: "index_replies_on_replyto_id"
+
+  create_table "reviews", force: true do |t|
+    t.string   "content"
+    t.integer  "blog_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reviews", ["blog_id"], name: "index_reviews_on_blog_id"
 
   create_table "users", force: true do |t|
     t.string   "name"
