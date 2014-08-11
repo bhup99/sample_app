@@ -5,9 +5,10 @@ class AttachmentsController < ApplicationController
 		@current_blog = params[:attachment][:blog].to_i
 		@current_blog = Blog.find(@current_blog)
 	  @attachment = @current_blog.attachments.new(attachment_params)
-	  if @attachment.save
+	  if @attachment.attachment_url && @attachment.save
 				redirect_to @current_blog, notice: "The attachment #{@attachment.name} has been uploaded."
 	  else
+		  flash[:failure] = "Enter the name and choose the file to be uploaded"
 		  redirect_to @current_blog
 	  end
   end

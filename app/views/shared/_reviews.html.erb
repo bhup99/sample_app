@@ -1,0 +1,10 @@
+<b><h2>Reviews</h2></b><br>
+<% @reviews.each do |r| %>
+		<%= link_to User.find(r.user_id).name, User.find(r.user_id) %><br>
+		<%= r.content %><br>
+		<span class="timestamp">
+				Posted <%= time_ago_in_words(r.created_at) %> ago.
+		</span>
+		<br><br>
+<% end %>
+

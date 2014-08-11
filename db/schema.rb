@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140808040736) do
+ActiveRecord::Schema.define(version: 20140811155959) do
 
   create_table "attachments", force: true do |t|
     t.string   "name"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140808040736) do
 
   add_index "blogs", ["title"], name: "index_blogs_on_title"
   add_index "blogs", ["user_id", "created_at"], name: "index_blogs_on_user_id_and_created_at"
+  add_index "blogs", ["user_id", "title"], name: "index_blogs_on_user_id_and_title", unique: true
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -43,6 +44,17 @@ ActiveRecord::Schema.define(version: 20140808040736) do
   end
 
   add_index "comments", ["blog_id"], name: "index_comments_on_blog_id"
+
+  create_table "ratings", force: true do |t|
+    t.integer  "blog_id"
+    t.integer  "user_id"
+    t.integer  "score",      default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ratings", ["blog_id"], name: "index_ratings_on_blog_id"
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id"
 
   create_table "relationships", force: true do |t|
     t.integer  "follower_id"
@@ -74,6 +86,7 @@ ActiveRecord::Schema.define(version: 20140808040736) do
     t.datetime "updated_at"
   end
 
+  add_index "reviews", ["blog_id", "user_id"], name: "index_reviews_on_blog_id_and_user_id", unique: true
   add_index "reviews", ["blog_id"], name: "index_reviews_on_blog_id"
 
   create_table "users", force: true do |t|
