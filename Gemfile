@@ -12,6 +12,7 @@ gem 'bootstrap-will_paginate', '0.0.9'
 gem "mail", "2.5.4"
 gem 'carrierwave', '~> 0.9'
 gem 'json'
+gem 'jquery-star-rating-rails'
 
 # Use sqlite3 as the database for Active Record
 group :development, :test do

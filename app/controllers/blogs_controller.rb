@@ -30,9 +30,12 @@ class BlogsController < ApplicationController
 	def show
 		@blog = Blog.find(params[:id])
 		blog_in @blog
+		@rating = Rating.where(blog_id: @blog.id, user_id: current_user.id).first unless @rating
+		@rating = Rating.create(blog_id: @blog.id, user_id: current_user.id, score: 0)
 		@comments = @blog.comments.all
 		@attachments = @blog.attachments.all
 		@attachment = @blog.attachments.build
+		@reviews = @blog.reviews.all
 
 	end
 

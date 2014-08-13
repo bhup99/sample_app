@@ -1,5 +1,10 @@
 SampleApp::Application.routes.draw do
+  get "ratings/update"
+  get "reviews/new"
+  get "reviews/create"
+  get "reviews/destroy"
 	resources :attachments, only: [:index, :new, :create, :destroy]
+	resources :ratings, only: :update
 	resources :users do
 		member do
 			get :following, :followers
@@ -8,6 +13,7 @@ SampleApp::Application.routes.draw do
 	resources :sessions, only: [:new, :create, :destroy]
 	resources :blogs do
 		resources :comments
+    resources :reviews
 	end
 	resources :relationships, only: [:create, :destroy]
 	root 'static_pages#home'

@@ -1,0 +1,5 @@
+<%= form_for ([@blog, @blog.reviews.build]) do |f| %>
+		<%= f.text_area :content, placeholder: "Give a review" %>
+
+		<%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>

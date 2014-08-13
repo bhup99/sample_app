@@ -1,10 +1,11 @@
 class User < ActiveRecord::Base
 	has_many :blogs, dependent: :destroy
+	has_many :ratings
 	has_many :relationships, foreign_key: "follower_id", dependent: :destroy
 	has_many :followed_users, through: :relationships, source: :followed
 	before_save { self.email = email.downcase }
 	before_create :create_remember_token
-	validates :name, presence: true, length: { maximum: 50 }
+	validates :name, presence: true, length: { maximum: 50 }, uniqueness: { case_sensitive: false }
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 	validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 	has_secure_password
